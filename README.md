@@ -86,18 +86,140 @@ Cuando un conjunto de usuarios consulta un enésimo número (superior a 1000000)
 **Preguntas**
 
 1. ¿Cuántos y cuáles recursos crea Azure junto con la VM?
+
+    1. Red virtual
+    2. Cuenta de almacenamiento
+    3. Dirección IP pública
+    4. Grupo de seguridad de red
+    5. Interfaz de red
+    6. Disco
 2. ¿Brevemente describa para qué sirve cada recurso?
+    1. Red virtual : Es una red privada en azure que permite que distintos recursos se puedan comunicar entre ellos, el internet y redes on-premise de forma segura
+    2. Cuenta de almacenamiento: contiene todos los objetos de datos de Azure Storage:  archivos, tablas, discos,etc .
+    3. Dirección IP pública: Permite acceder remotamente al recurso desde redes externas
+    4. Grupo de seguridad de red:Un grupo de seguridad de la red contiene reglas de seguridad que permiten o restringen el tráfico de entrada a la red o el tráfico de salida de la red a partir de varios tipos de recursos de Azure.
+    5. Interfaz de red :permite que la máquina se comunique con el internet y con otros recursos en la red local
+    6. Disco : sirve para expandir las capacidades de almacenamiento de la máquina
+
 3. ¿Al cerrar la conexión ssh con la VM, por qué se cae la aplicación que ejecutamos con el comando `npm FibonacciApp.js`? ¿Por qué debemos crear un *Inbound port rule* antes de acceder al servicio?
+    * Porque cuando se cierra la terminal ssh esta manda un llamado a todos los procesos para que se cierren
+    forever se encarga de matener ejecutando el script y que cuando se cierre la conexión ssh y se intente cerrar el proceso se vuelva
+    a ejecutar para mantenerlo activo.
+    * Se tuvo que crear un Inbound port rule para poder abrir este puerto en la máquina y permitir el tráfico de red por este
 4. Adjunte tabla de tiempos e interprete por qué la función tarda tando tiempo.
+
+## A0
+| Caso | Tiempo(min)|
+|---------|--------|
+| 1000000 | 1.7 |
+| 1010000 | 1.8 |
+| 1020000 | 1.8 |
+| 1030000 | 1.9 |
+| 1040000 | 1.9 |
+| 1050000 | 2.0 |
+| 1060000 | 2.0 |
+| 1070000 | 2.0 |
+| 1080000 | 2.1 |
+| 1090000 | 2.1 |
+
+## A6
+| Caso    | Tiempo(s) |
+|---------|-----------|
+| 1000000 | 48.97     |
+| 1010000 | 50.9      |
+| 1020000 | 51.69     |
+| 1030000 | 53.34     |
+| 1040000 | 53.98     |
+| 1050000 | 55.82     |
+| 1060000 | 56.67     |
+| 1070000 | 57.3      |
+| 1080000 | 59.62     |
+| 1090000 | 60.3      |
+
+La función tarda mucho tiempo porque el calculo de fibonacci esta implementado con complejidad O(n) 
+por lo que las entradas grandes implican bastantes calculos,además al realizar siempre todas las operaciones
+sin hacer uso de memorización, cada petición debe re calcular todo el numero desde 0.
+    
 5. Adjunte imágen del consumo de CPU de la VM e interprete por qué la función consume esa cantidad de CPU.
+
+## A0
+![usoCpu](images/Cpu.png)
+
+La función se mantiene haciendo operaciones matemáticas con numeros grandes durante un largo periodo de tiempo 
+y dado que la capacida de la maquina es muy poca este proceso es suficiente para llevar a un alto consumo (90%+) mientras
+la petición se esta ejecutando.
+
+## A6
+![usoCpu](images/cpu3.png)
+
+Como vemos al aumentar los recursos de la máquina virtual, aunque el algoritmos sigue realizando
+las mismas operaciones ahora estas corresponden a un menor porcentaje del total de CPU de la vm
+
 6. Adjunte la imagen del resumen de la ejecución de Postman. Interprete:
-    * Tiempos de ejecución de cada petición.
-    * Si hubo fallos documentelos y explique.
-7. ¿Cuál es la diferencia entre los tamaños `B2ms` y `B1ls` (no solo busque especificaciones de infraestructura)?
+
+## A0
+![reporte](images/consumo1.png)
+
+![cpu2](images/cpu2.png)
+
+Según lo visto en la imagen en promedio cada petición tarda en promedio 3 minutos, lo que es superior al tiempo
+obtenido al correr el mismo caso de forma independiente, esto se debe a que el servidore debe
+repatir su capacidad de procesamiento para responder a dos consultas de forma concurrente, por lo que
+el tiempo de respuesta de cada petición se ve afectado. Los errores se generaron porque en algunos momentos
+el servidor no contaba con recursos libres disponibles para asignar al calculo de la respuesta de la petición por lo que se
+generaba un error.
+ 
+ También hay que destacar que destacar que el consumo de CPU del servidor se mantuvo alto (95%+) durante todo el proceso
+ 
+ ## A6
+![reporte2](images/consumo2.png)
+![cpu4](images/cpu4.png)
+ 
+ Con el nuevo tamaño se redujo el numero de errores y el consumo de Cpu del servidor 
+ 
+7. ¿Cuál es la diferencia entre los tamaños `A0` y `A6` (no solo busque especificaciones de infraestructura)?
+
+El tamaño A0 está sobre suscrito en el hardware físico. Sólo para este tamaño específico, otros despliegues del cliente pueden afectar el rendimiento de su carga de trabajo en ejecución. El rendimiento relativo se describe a continuación como la línea de base esperada, sujeta a una variabilidad aproximada del 15 por ciento.
+
+Además el tamaño A0 es mucho mas económico que el tamaño A6
+
+| Tamaño | Vcpu | RAM(GiB) | Discos de datos | Almacenamiento temporal | Max NICs/ Ancho de banda de la red |
+|--------|------|----------|-----------------|-------------------------|------------------------------------|
+| A0     | 1    | 0.75     | 1               | 20                      | 1/Bajo                             |
+| A6     | 4    | 28       | 8               | 1000                    | 2/Alto                             |
+
 8. ¿Aumentar el tamaño de la VM es una buena solución en este escenario?, ¿Qué pasa con la FibonacciApp cuando cambiamos el tamaño de la VM?
+
+Es una buena solución para bajar la carga del servidor y poder obtener mayor velocidad de respuesta puesto
+que con el nuevo tamaño se ejecutan más operaciones en menos tiempo, sin embargo el sistema aún no soporta que 
+muchos usuarios efectuen peticiones de forma concurrente sin que el tiempo y la cantidad de respuestas se 
+vea afectada 
+
+FibonacciApp deja de correr porque al cambiar el tamaño la máquina debe reiniciarse
+
 9. ¿Qué pasa con la infraestructura cuando cambia el tamaño de la VM? ¿Qué efectos negativos implica?
+
+La máquina debe reiniciarse para poder cambiar el tamaño, como efecto negativo implica que el servicio
+no esté disponible mientras se realiza el escalamiento.
+
 10. ¿Hubo mejora en el consumo de CPU o en los tiempos de respuesta? Si/No ¿Por qué?
+
+Tanto el consumo de CPU como el tiempo de respuesta mejoraron. Esto se debe a que se aumentó la capacidad de 
+procesamiento de la máquina , se añadieron 3 Vcpu y 27GiB de RAM , por lo que las operaciones realizadas representaban
+ un porcentaje de  CPU menor y se realizaban en menos tiempo.
+
 11. Aumente la cantidad de ejecuciones paralelas del comando de postman a `4`. ¿El comportamiento del sistema es porcentualmente mejor?
+
+![consumo4](images/consumo3.png)
+
+![cpu5](images/cpu5.png)
+
+El comportamiento en términos de cantidad de peticiones realizadas exitosamente es peor que cuando se enviaban 2 ejecuciones
+paralelas de postman. En el caso de 4 ejecuciones paralelas tenemos que el 72.5% de las peticiones fueron exitosas, mientras
+que en el caso de 2 ejecucioens paralelas tenemos que el 90% de las peticiones fueron exitosas.
+
+En terminos de consumo de CPU ambos casos presentan el mismo comportamiento de consumo, aproximadamente
+25% de la CPU
 
 ### Parte 2 - Escalabilidad horizontal
 
