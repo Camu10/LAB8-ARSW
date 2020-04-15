@@ -296,6 +296,16 @@ http://52.155.223.248/fibonacci/1
 
 2. Realice las pruebas de carga con `newman` que se realizaron en la parte 1 y haga un informe comparativo donde contraste: tiempos de respuesta, cantidad de peticiones respondidas con éxito, costos de las 2 infraestrucruras, es decir, la que desarrollamos con balanceo de carga horizontal y la que se hizo con una maquina virtual escalada.
 
+* Tablas de tiempo con 2 en paralelo
+![](images/tabla1.png)
+![](images/tabla2.png)
+* Rendimiento de CPU
+    * MV1: ![](images/vm1-p1.png)
+    * MV2: ![](images/vm2-p1.png)
+    * MV3: ![](images/vm3-p1.png)
+
+
+
 3. Agregue una 4 maquina virtual y realice las pruebas de newman, pero esta vez no lance 2 peticiones en paralelo, sino que incrementelo a 4. Haga un informe donde presente el comportamiento de la CPU de las 4 VM y explique porque la tasa de éxito de las peticiones aumento con este estilo de escalabilidad.
 
 ```
@@ -304,6 +314,18 @@ newman run ARSW_LOAD-BALANCING_AZURE.postman_collection.json -e [ARSW_LOAD-BALAN
 newman run ARSW_LOAD-BALANCING_AZURE.postman_collection.json -e [ARSW_LOAD-BALANCING_AZURE].postman_environment.json -n 10 &
 newman run ARSW_LOAD-BALANCING_AZURE.postman_collection.json -e [ARSW_LOAD-BALANCING_AZURE].postman_environment.json -n 10
 ```
+
+* Tablas de tiempo con 4 en paralelo:
+![](images/tabla1-p2.png)
+![](images/tabla2-p2.png)
+![](images/tabla3-p2.png)
+![](images/tabla4-p2.png)
+
+* Rendimiento de CPU
+    * MV1: ![](images/vm1-p2.png)
+    * MV2: ![](images/vm2-p2.png)
+    * MV3: ![](images/vm3-p2.png)
+    * MV4: ![](images/vm4-p2.png)
 
 **Preguntas**
 
