@@ -296,11 +296,11 @@ http://52.155.223.248/fibonacci/1
 
 2. Realice las pruebas de carga con `newman` que se realizaron en la parte 1 y haga un informe comparativo donde contraste: tiempos de respuesta, cantidad de peticiones respondidas con éxito, costos de las 2 infraestrucruras, es decir, la que desarrollamos con balanceo de carga horizontal y la que se hizo con una maquina virtual escalada.
 
-* Tablas de tiempo con 2 en paralelo
+* Tablas de tiempo con 2 en paralelo:
 
     ![](images/tabla1.JPG)
     ![](images/tabla2.JPG)
-* Rendimiento de CPU
+* Rendimiento de CPU:
     * MV1: 
 
         ![](images/vm1-p1.JPG)
@@ -331,7 +331,7 @@ newman run ARSW_LOAD-BALANCING_AZURE.postman_collection.json -e [ARSW_LOAD-BALAN
     ![](images/tabla3-p2.JPG)
     ![](images/tabla4-p2.JPG)
 
-* Rendimiento de CPU
+* Rendimiento de CPU:
 
     * MV1:
 
