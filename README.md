@@ -300,9 +300,9 @@ http://52.155.223.248/fibonacci/1
 ![](images/tabla1.JPG)
 ![](images/tabla2.JPG)
 * Rendimiento de CPU
-    * MV1: ![](images/vm1-p1.JPG)
-    * MV2: ![](images/vm2-p1.JPG)
-    * MV3: ![](images/vm3-p1.JPG)
+    * MV1:  ![](images/vm1-p1.JPG)
+    * MV2:  ![](images/vm2-p1.JPG)
+    * MV3:  ![](images/vm3-p1.JPG)
 
 
 
@@ -322,10 +322,10 @@ newman run ARSW_LOAD-BALANCING_AZURE.postman_collection.json -e [ARSW_LOAD-BALAN
 ![](images/tabla4-p2.JPG)
 
 * Rendimiento de CPU
-    * MV1: ![](images/vm1-p2.JPG)
-    * MV2: ![](images/vm2-p2.JPG)
-    * MV3: ![](images/vm3-p2.JPG)
-    * MV4: ![](images/vm4-p2.JPG)
+    * MV1:  ![](images/vm1-p2.JPG)
+    * MV2:  ![](images/vm2-p2.JPG)
+    * MV3:  ![](images/vm3-p2.JPG)
+    * MV4:  ![](images/vm4-p2.JPG)
 
 **Preguntas**
 
